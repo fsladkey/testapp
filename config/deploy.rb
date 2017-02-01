@@ -1,11 +1,10 @@
 server '35.166.27.31', roles: [:web, :app, :db], primary: true
 
-set :repo_url,        'git@example.com:fsladkey/testapp.git'
+set :repo_url,        'git@github.com:fsladkey/testapp.git'
 set :application,     'testapp'
 set :user,            'ubuntu'
 set :puma_threads,    [4, 16]
 set :puma_workers,    0
-
 set :default_environment, {
   'PATH' => "$HOME/.rbenv/shims:$HOME/.rbenv/bin:$PATH"
 }
@@ -36,7 +35,9 @@ set :puma_init_active_record, true  # Change to false when not using ActiveRecor
 ## Linked Files & Directories (Default None):
 # set :linked_files, %w{config/database.yml}
 # set :linked_dirs,  %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
-
+on :start do
+  `ssh-add`
+end
 namespace :puma do
   desc 'Create Directories for Puma Pids and Socket'
   task :make_dirs do
